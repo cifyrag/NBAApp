@@ -33,7 +33,7 @@ namespace NBAApi.Dto
                 ConferenceName = team.Conference.Name,
                 DivisionId = team.TeamDivisionId,
                 DivisionName = team.Division.Name,
-                StateId = team.TeamStateId.ToString(),
+                StateId = team.State.Id,
                 StateName = team.State.Name,
                 City = team.City,
                 Logo = team.Logo,

@@ -39,7 +39,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_PositionDetails))]
-        public IActionResult GetPosition([FromQuery] int id)
+        public IActionResult GetPosition([FromQuery] string id)
         {
             if (!_context.Positions.Any(c => c.Id == id))
                 return NotFound();

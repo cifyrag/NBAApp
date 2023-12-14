@@ -20,7 +20,7 @@ namespace NBAApi.Dto
             return new DTO_SeasonDetails
             {
                 Id = season.Id,
-                Season = season.Season.ToString(),
+                Season = season.Season,
                 Teams = season.Statistics.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x.Team)).ToList(),
                 Players = season.Statistics.Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x.Player)).ToList(),
             };

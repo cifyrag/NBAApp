@@ -5,9 +5,9 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Birthdate { get; set; }
-        public int PlayerCountryId { get; set; }
+        public string PlayerCountryId { get; set; }
         public int DraftYear { get; set; }
-        public int PlayerPositionId { get; set; }
+        public string PlayerPositionId { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
         public string School { get; set; }

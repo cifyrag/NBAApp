@@ -32,7 +32,7 @@ namespace NBAApi.Dto
                 Id = player.Id,
                 Name = player.Name,
                 Birthdate = player.Birthdate,
-                CountryId = player.PlayerCountryId.ToString(),
+                CountryId = player.PlayerCountryId,
                 CountryName = player.Country.Name,
                 DraftYear = player.DraftYear,
                 PositionId = player.PlayerPositionId.ToString(),

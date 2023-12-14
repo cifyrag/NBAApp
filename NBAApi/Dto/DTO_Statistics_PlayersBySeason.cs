@@ -16,7 +16,7 @@ namespace NBAApi.Dto
             }
             return new DTO_Statistics_PlayersBySeason
             {
-                Season = statistic.Year.Season.ToString(),
+                Season = statistic.Year.Season,
                 SeasonType = statistic.SeasonType.Name,
                 Players = players.Select(x => DTO_PlayerShort.ToDTO_PlayerShort(x)).ToList(),
             };

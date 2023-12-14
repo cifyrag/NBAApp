@@ -17,7 +17,7 @@ namespace NBAApi.Dto
             return new DTO_SeasonSummary
             {
                 Id = season.Id,
-                Season = season.Season.ToString(),
+                Season = season.Season,
 
             };
         }

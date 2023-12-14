@@ -40,7 +40,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_StateDetails))]
-        public IActionResult GetState([FromQuery] int id)
+        public IActionResult GetState([FromQuery] string id)
         {
             if (!_context.States.Any(c => c.Id == id))
                 return NotFound();

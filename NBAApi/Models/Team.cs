@@ -8,7 +8,7 @@
         public int TeamConferenceId { get; set; }
         public int TeamDivisionId { get; set; }
 
-        public int TeamStateId { get; set; }
+        public string TeamStateId { get; set; }
         public string City { get; set; }
         public string Logo { get; set; }
         public string History { get; set; }
