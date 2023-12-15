@@ -1,7 +1,10 @@
-﻿namespace NBAApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NBAApi.Models
 {
     public class State
     {
+        [Key]
         public string Id { get; set; }
         public string Name { get; set; }
         public string Flag { get; set; }

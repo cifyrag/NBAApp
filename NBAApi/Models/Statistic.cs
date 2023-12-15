@@ -1,9 +1,11 @@
-﻿using System.Numerics;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 
 namespace NBAApi.Models
 {
     public class Statistic
     {
+        [Key]
         public int Id { get; set; }
         public int Rank { get; set; }
         public int StatisticYearId { get; set; }

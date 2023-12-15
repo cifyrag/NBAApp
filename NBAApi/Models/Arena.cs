@@ -5,6 +5,7 @@ namespace NBAApi.Models
 {
     public class Arena
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string ArenaStateId { get; set; }
