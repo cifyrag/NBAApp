@@ -6,7 +6,7 @@ using NBAApi.Models;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 
-namespace NBAWeb.Controllers
+namespace NBAApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -29,8 +29,15 @@ namespace NBAWeb.Controllers
             Dictionary<string, int> numOfPlayers = new Dictionary<string, int>();
 
             var statistics = _context.Statistics;
+            foreach (var a in statistics)
+            {
+                a.Player = _context.Players.Where(u => u.Id == a.PlayerId).FirstOrDefault();
+                a.SeasonType = _context.SeasonTypes.Where(u => u.Id == a.SeasonTypeId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+                a.Year = _context.Years.Where(u => u.Id == a.YearId).FirstOrDefault();
+            }
 
-            foreach( var statistic in statistics )
+            foreach ( var statistic in statistics )
             {
                 var season = statistic.Year.Season + " "+ statistic.SeasonType.Name;
                 if (numOfPlayers.ContainsKey(season))
@@ -54,7 +61,7 @@ namespace NBAWeb.Controllers
                 return BadRequest(ModelState);
             }
 
-            return View(result);
+            return Ok(result);
         }
 
         //GET api/Statistics/PlayerRankBySeason?playerId={playerId}
@@ -71,7 +78,7 @@ namespace NBAWeb.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return View(statistics.Select(x => DTO_Statistics_PlayerRankBySeason.ToDTO_Statistics_PlayerRankBySeason(x)).ToList());
+            return Ok(statistics.Select(x => DTO_Statistics_PlayerRankBySeason.ToDTO_Statistics_PlayerRankBySeason(x)).ToList());
         }
 
         //GET api/Statistics/PlayersBySeason?seasonId={seasonId}&teamid={teamid}
@@ -84,7 +91,13 @@ namespace NBAWeb.Controllers
             var statistics = _context.Statistics
                 .Where(x => x.Year.Id == seasonId && x.Team.Id == teamid)
                 .ToList();
-
+            foreach (var a in statistics)
+            {
+                a.Player = _context.Players.Where(u => u.Id == a.PlayerId).FirstOrDefault();
+                a.SeasonType = _context.SeasonTypes.Where(u => u.Id == a.SeasonTypeId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+                a.Year = _context.Years.Where(u => u.Id == a.YearId).FirstOrDefault();
+            }
             foreach (var statistic in statistics)
             {
                 players.Add(statistic.Player);
@@ -94,7 +107,7 @@ namespace NBAWeb.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return View(DTO_Statistics_PlayersBySeason.ToDTO_Statistics_PlayersBySeason(statistics.FirstOrDefault(), players));
+            return Ok(DTO_Statistics_PlayersBySeason.ToDTO_Statistics_PlayersBySeason(statistics.FirstOrDefault(), players));
         }
 
         //GET api/Statistics/Top5RankedPlayerByPlayoffSeason
@@ -108,6 +121,13 @@ namespace NBAWeb.Controllers
                 .OrderByDescending(x => x.Rank)
                 .Take(5)
                 .ToList();
+            foreach (var a in statistics)
+            {
+                a.Player = _context.Players.Where(u => u.Id == a.PlayerId).FirstOrDefault();
+                a.SeasonType = _context.SeasonTypes.Where(u => u.Id == a.SeasonTypeId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+                a.Year = _context.Years.Where(u => u.Id == a.YearId).FirstOrDefault();
+            }
             Dictionary<string, List<Statistic>> players = new Dictionary<string, List<Statistic>>();
 
             foreach (var statistic in statistics)
@@ -133,7 +153,7 @@ namespace NBAWeb.Controllers
                 return BadRequest(ModelState);
             }
 
-            return View(result);
+            return Ok(result);
         }
 
         //GET api/Statistics/Top5RankedPlayerByRegularSeason
@@ -145,7 +165,13 @@ namespace NBAWeb.Controllers
             var statistics = _context.Statistics
                 .Where(x => x.SeasonType.Name == "Regular Season")
                 .ToList();
-
+            foreach (var a in statistics)
+            {
+                a.Player = _context.Players.Where(u => u.Id == a.PlayerId).FirstOrDefault();
+                a.SeasonType = _context.SeasonTypes.Where(u => u.Id == a.SeasonTypeId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+                a.Year = _context.Years.Where(u => u.Id == a.YearId).FirstOrDefault();
+            }
             Dictionary<string, List<Statistic>> players = new Dictionary<string, List<Statistic>>();
 
             foreach (var statistic in statistics)
@@ -171,7 +197,7 @@ namespace NBAWeb.Controllers
                 return BadRequest(ModelState);
             }
 
-            return View(result);
+            return Ok(result);
 
         }
 

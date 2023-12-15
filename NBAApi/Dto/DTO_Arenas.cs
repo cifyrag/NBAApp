@@ -20,14 +20,16 @@ namespace NBAApi.Dto
             {
                 return null;
             }
+            var totalP = arenas.Count / pagesize > 0 ? arenas.Count / pagesize : 1;
+            page = page <= 1 ? 1 : page;
             return new DTO_Arenas
             {
                 TotalRecords = arenas.Count,
-                TotalPages = arenas.Count/pagesize,
+                TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page>1,
-                HasNext = page< arenas.Count,
+                HasNext = page< totalP,
                 Records = arenas,
             };
         }

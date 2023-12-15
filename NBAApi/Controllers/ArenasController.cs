@@ -1,9 +1,11 @@
 ﻿ 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NBAApi.Data;
 using NBAApi.Dto;
 using NBAApi.Models;
 using System.Drawing.Printing;
+using System.Reflection.Metadata.Ecma335;
 
 namespace NBAApi.Controllers
 {
@@ -31,6 +33,12 @@ namespace NBAApi.Controllers
                         .OrderBy(a => a.Name)
                         .Take(50)
                         .ToList();
+
+            foreach (var a in arenas)
+            {
+                a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -42,15 +50,17 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_ArenaDetails))]
-        public IActionResult GetArena([FromQuery] string id)
+        public IActionResult GetArena( string id)
         {
             if (!_context.Arenas.Any(c => c.Id == id))
                 return NotFound();
 
+
             var arena = _context.Arenas
                 .Where(a => a.Id == id)
                 .FirstOrDefault();
-
+            arena.State = _context.States.Where(u => u.Id == arena.StateId).FirstOrDefault();
+            arena.Team = _context.Teams.Where(u => u.Id == arena.TeamId).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -68,6 +78,15 @@ namespace NBAApi.Controllers
             var arenas = _context.Arenas
                 .Where(x => (x.Name.Trim().ToLower()).Contains(q.Trim().ToLower()))
                 .ToList();
+            foreach (var a in arenas)
+            {
+                a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return Ok(arenas.Select(x => DTO_ArenaSummary.ToDTO_ArenaSummary(x)).ToList());
         }
 
@@ -85,6 +104,12 @@ namespace NBAApi.Controllers
                         .Skip((page - 1) * pagesize)
                         .Take(pagesize)
                         .ToList();
+
+            foreach (var a in arenas)
+            {
+                a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault();
+                a.Team = _context.Teams.Where(u => u.Id == a.TeamId).FirstOrDefault();
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

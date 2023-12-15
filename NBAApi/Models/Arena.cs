@@ -14,7 +14,8 @@ namespace NBAApi.Models
         public string? Photo { get; set; }
         public double? Lat { get; set; }
         public double? Lon { get; set; }
-
+        public string? StateId { get; set; }
+        public string? TeamId { get; set; }
         public State? State { get; set; }
         public Team? Team { get; set; }
 

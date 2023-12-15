@@ -7,8 +7,6 @@ namespace NBAApi.Models
     {
         public string Id { get; set; }
         public int? Rank { get; set; }
-        
-        
         public int? GamesPlayed { get; set; }
         public int? MinutesPlayed { get; set; }
         public int? FGMade { get; set; }
@@ -33,7 +31,14 @@ namespace NBAApi.Models
         public double? AST_TOV { get; set; }
         public double? STL_TOV { get; set; }
 
-        
+        public string? PlayerId { get; set; }
+        public string? SeasonTypeId { get; set; }
+        public string? TeamId { get; set; }
+        public string? YearId { get; set; }
+
+
+
+
         public Player Player { get; set; }
         public SeasonType SeasonType { get; set; }
         public Team Team { get; set; }

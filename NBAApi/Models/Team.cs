@@ -11,6 +11,12 @@ namespace NBAApi.Models
         public string?  City { get; set; }
         public string?  Logo { get; set; }
         public string?  History { get; set; }
+        public string? ConferenceId { get; set; }
+        public string? DivisionId { get; set; }
+        public string? StateId { get; set; }
+
+
+
 
         public Conference? Conference { get; set; }
         public Division? Division { get; set; }

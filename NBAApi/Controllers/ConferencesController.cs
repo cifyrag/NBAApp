@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
  
 using NBAApi.Data;
 using NBAApi.Dto;
+using NBAApi.Models;
 using System.Diagnostics;
 
 namespace NBAApi.Controllers
@@ -29,6 +30,7 @@ namespace NBAApi.Controllers
                         .OrderBy(a => a.Name)
                         .Take(50)
                         .ToList();
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -43,7 +45,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_ConferenceDetails))]
-        public IActionResult GetConference([FromQuery]string id)
+        public IActionResult GetConference(string id)
         {
             if (!_context.Conferences.Any(c => c.Id == id))
                 return NotFound();
