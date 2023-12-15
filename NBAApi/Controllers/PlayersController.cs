@@ -42,7 +42,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_PlayerDetails))]
-        public IActionResult GetPlayer([FromQuery]int id)
+        public IActionResult GetPlayer([FromQuery]string id)
         {
             if (!_context.Players.Any(c => c.Id == id))
                 return NotFound();

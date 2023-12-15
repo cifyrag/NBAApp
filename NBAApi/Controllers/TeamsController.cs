@@ -40,7 +40,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_TeamDetails))]
-        public IActionResult GetTeam([FromQuery] int id, [FromQuery] string acronym)
+        public IActionResult GetTeam([FromQuery] string id, [FromQuery] string acronym)
         {
             if (!_context.Teams.Any(c => c.Id == id))
                 return NotFound();

@@ -42,7 +42,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_ArenaDetails))]
-        public IActionResult GetArena([FromQuery] int id)
+        public IActionResult GetArena([FromQuery] string id)
         {
             if (!_context.Arenas.Any(c => c.Id == id))
                 return NotFound();

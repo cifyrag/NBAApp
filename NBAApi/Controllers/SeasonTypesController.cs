@@ -40,7 +40,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_SeasonTypeDetails))]
-        public IActionResult GetSeasonType([FromQuery] int id)
+        public IActionResult GetSeasonType([FromQuery] string id)
         {
             if (!_context.SeasonTypes.Any(c => c.Id == id))
                 return NotFound();

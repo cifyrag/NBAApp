@@ -4,19 +4,19 @@ namespace NBAApi.Dto
 {
     public class DTO_ArenaDetails
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string StateId { get; set; }
-        public string StateName { get; set; }
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
-        public string TeamAcronym { get; set; }
-        public string Location { get; set; }
-        public int Capacity { get; set; }
-        public int Opened { get; set; }
-        public string Photo { get; set; }
-        public string Lat { get; set; }
-        public string Lon { get; set; }
+        public string Id { get; set; }
+        public string? Name { get; set; }
+        public string? StateId { get; set; }
+        public string? StateName { get; set; }
+        public string? TeamId { get; set; }
+        public string? TeamName { get; set; }
+        public string? TeamAcronym { get; set; }
+        public string? Location { get; set; }
+        public int? Capacity { get; set; }
+        public int? Opened { get; set; }
+        public string? Photo { get; set; }
+        public string? Lat { get; set; }
+        public string? Lon { get; set; }
 
         public static DTO_ArenaDetails? ToDTO_ArenaDetails(Arena arena)
         {
@@ -28,9 +28,9 @@ namespace NBAApi.Dto
             {
                 Id = arena.Id,
                 Name = arena.Name,
-                StateId = arena.ArenaStateId,
+                StateId = arena.State.Id,
                 StateName = arena.State.Name,
-                TeamId = arena.ArenaTeamId,
+                TeamId = arena.Team.Id,
                 TeamName = arena.Team.Name,
                 TeamAcronym = arena.Team.Acronym,
                 Location = arena.Location,

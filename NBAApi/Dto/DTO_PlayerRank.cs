@@ -4,9 +4,9 @@ namespace NBAApi.Dto
 {
     public class DTO_PlayerRank
     {
-        public int Rank { get; set; }
-        public int PlayerId { get; set; }
-        public string PlayerName { get; set; }
+        public int? Rank { get; set; }
+        public string? PlayerId { get; set; }
+        public string? PlayerName { get; set; }
 
         public static DTO_PlayerRank? ToDTO_PlayerRank(Player player)
         {

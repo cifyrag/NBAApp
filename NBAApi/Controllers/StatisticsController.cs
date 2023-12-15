@@ -61,10 +61,10 @@ namespace NBAWeb.Controllers
         [HttpGet("PlayerRankBySeason")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(List<DTO_Statistics_PlayerRankBySeason>))]
-        public IActionResult GetPlayerRankBySeason(int playerId)
+        public IActionResult GetPlayerRankBySeason(string playerId)
         {
             var statistics = _context.Statistics
-                .Where(x => x.StatisticPlayerId == playerId)
+                .Where(x => x.Player.Id == playerId)
                 .ToList();
 
             if (!ModelState.IsValid)
@@ -78,11 +78,11 @@ namespace NBAWeb.Controllers
         [HttpGet("PlayersBySeason")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_Statistics_PlayersBySeason))]
-        public IActionResult GetPlayersBySeason(int seasonId, int teamid)
+        public IActionResult GetPlayersBySeason(string seasonId, string teamid)
         {
             List<Player> players = new List<Player>();
             var statistics = _context.Statistics
-                .Where(x => x.StatisticYearId == seasonId && x.StatisticTeamId == teamid)
+                .Where(x => x.Year.Id == seasonId && x.Team.Id == teamid)
                 .ToList();
 
             foreach (var statistic in statistics)

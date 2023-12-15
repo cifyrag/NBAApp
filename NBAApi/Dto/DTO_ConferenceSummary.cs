@@ -4,8 +4,8 @@ namespace NBAApi.Dto
 {
     public class DTO_ConferenceSummary
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
 
         public static DTO_ConferenceSummary? ToDTO_ConferenceSummary(Conference conference)
         {

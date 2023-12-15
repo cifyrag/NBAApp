@@ -33,67 +33,67 @@ namespace NBAApi.Data
             modelBuilder.Entity<Conference>()
                 .HasMany(d => d.Teams)
                 .WithOne(e => e.Conference)
-                .HasForeignKey(e => e.TeamConferenceId)
+                .HasForeignKey("ConferenceId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Division>()
                 .HasMany(d => d.Teams)
                 .WithOne(e => e.Division)
-                .HasForeignKey(e => e.TeamDivisionId)
+                .HasForeignKey("DivisionId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<State>()
                 .HasMany(d => d.Teams)
                 .WithOne(e => e.State)
-                .HasForeignKey(e => e.TeamStateId)
+                .HasForeignKey("StateId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<SeasonType>()
                 .HasMany(d => d.Statistics)
                 .WithOne(e => e.SeasonType)
-                .HasForeignKey(e => e.StatisticSeasonTypeId)
+                .HasForeignKey("SeasonTypeId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Year>()
                 .HasMany(d => d.Statistics)
                 .WithOne(e => e.Year)
-                .HasForeignKey(e => e.StatisticYearId)
+                .HasForeignKey("YearId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Country>()
                 .HasMany(d => d.Players)
                 .WithOne(e => e.Country)
-                .HasForeignKey(e => e.PlayerCountryId)
+                .HasForeignKey("CountryId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Position>()
                 .HasMany(d => d.Players)
                 .WithOne(e => e.Position)
-                .HasForeignKey(e => e.PlayerPositionId)
+                .HasForeignKey("PositionId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Player>()
                 .HasMany(d => d.Statistics)
                 .WithOne(e => e.Player)
-                .HasForeignKey(e => e.StatisticPlayerId)
+                .HasForeignKey("PlayerId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Team>()
                 .HasMany(d => d.Statistics)
                 .WithOne(e => e.Team)
-                .HasForeignKey(e => e.StatisticTeamId)
+                .HasForeignKey("TeamId")
  
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Team>()
                 .HasMany(d => d.Arenas)
                 .WithOne(e => e.Team)
-                .HasForeignKey(e => e.ArenaTeamId)
+                .HasForeignKey("TeamId")
  
                 .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Team>()
+            modelBuilder.Entity<State>()
                 .HasMany(d => d.Arenas)
-                .WithOne(e => e.Team)
-                .HasForeignKey(e => e.ArenaTeamId)
+                .WithOne(e => e.State)
+                .HasForeignKey("StateId")
                 .OnDelete(DeleteBehavior.NoAction);
 
         }

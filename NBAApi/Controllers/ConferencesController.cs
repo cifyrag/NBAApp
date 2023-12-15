@@ -43,7 +43,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_ConferenceDetails))]
-        public IActionResult GetConference([FromQuery]int id)
+        public IActionResult GetConference([FromQuery]string id)
         {
             if (!_context.Conferences.Any(c => c.Id == id))
                 return NotFound();

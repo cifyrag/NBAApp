@@ -4,8 +4,8 @@ namespace NBAApi.Dto
 {
     public class DTO_Statistics_PlayersBySeason
     {
-        public string Season { get; set; }
-        public string SeasonType { get; set; }
+        public string? Season { get; set; }
+        public string? SeasonType { get; set; }
         public List<DTO_PlayerShort> Players { get; set; }
 
         public static DTO_Statistics_PlayersBySeason? ToDTO_Statistics_PlayersBySeason(Statistic statistic, List<Player> players)

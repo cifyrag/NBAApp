@@ -4,8 +4,8 @@ namespace NBAApi.Dto
 {
     public class DTO_SeasonTypeSummary
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
 
         public static DTO_SeasonTypeSummary? ToDTO_SeasonTypeSummary(SeasonType seasonType)
         {

@@ -15,8 +15,7 @@ namespace NBAApi.Migrations
                 name: "Conferences",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Logo = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -68,8 +67,7 @@ namespace NBAApi.Migrations
                 name: "SeasonTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -94,8 +92,7 @@ namespace NBAApi.Migrations
                 name: "Years",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Season = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -107,8 +104,7 @@ namespace NBAApi.Migrations
                 name: "Players",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birthdate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DraftYear = table.Column<int>(type: "int", nullable: true),
@@ -139,14 +135,13 @@ namespace NBAApi.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Acronym = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Logo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     History = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConferenceId = table.Column<int>(type: "int", nullable: true),
+                    ConferenceId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DivisionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     StateId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -174,8 +169,7 @@ namespace NBAApi.Migrations
                 name: "Arenas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Capacity = table.Column<int>(type: "int", nullable: true),
@@ -184,7 +178,7 @@ namespace NBAApi.Migrations
                     Lat = table.Column<double>(type: "float", nullable: true),
                     Lon = table.Column<double>(type: "float", nullable: true),
                     StateId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TeamId = table.Column<int>(type: "int", nullable: true)
+                    TeamId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -205,8 +199,7 @@ namespace NBAApi.Migrations
                 name: "Statistics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Rank = table.Column<int>(type: "int", nullable: true),
                     GamesPlayed = table.Column<int>(type: "int", nullable: true),
                     MinutesPlayed = table.Column<int>(type: "int", nullable: true),
@@ -227,14 +220,14 @@ namespace NBAApi.Migrations
                     Blocks = table.Column<int>(type: "int", nullable: true),
                     Turnovers = table.Column<int>(type: "int", nullable: true),
                     PersonalFouls = table.Column<int>(type: "int", nullable: true),
-                    PointsScored = table.Column<int>(type: "int", nullable: true),
+                    PointScored = table.Column<int>(type: "int", nullable: true),
                     Efficiency = table.Column<double>(type: "float", nullable: true),
                     AST_TOV = table.Column<double>(type: "float", nullable: true),
                     STL_TOV = table.Column<double>(type: "float", nullable: true),
-                    PlayerId = table.Column<int>(type: "int", nullable: true),
-                    SeasonTypeId = table.Column<int>(type: "int", nullable: true),
-                    TeamId = table.Column<int>(type: "int", nullable: true),
-                    YearId = table.Column<int>(type: "int", nullable: true)
+                    PlayerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SeasonTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TeamId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    YearId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {

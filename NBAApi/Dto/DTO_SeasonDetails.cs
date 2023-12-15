@@ -6,8 +6,8 @@ namespace NBAApi.Dto
 {
     public class DTO_SeasonDetails
     {
-        public int Id { get; set; }
-        public string Season { get; set; }
+        public string? Id { get; set; }
+        public string? Season { get; set; }
         public List<DTO_TeamSummary> Teams { get; set; }
         public List<DTO_PlayerSummary> Players { get; set; }
 

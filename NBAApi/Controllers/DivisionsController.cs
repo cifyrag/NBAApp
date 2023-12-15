@@ -42,7 +42,7 @@ namespace NBAApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_DivisionDetails))]
-        public IActionResult GetDivision([FromQuery]int id)
+        public IActionResult GetDivision([FromQuery]string id)
         {
 
             if (!_context.Divisions.Any(c => c.Id == id))

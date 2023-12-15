@@ -5,9 +5,9 @@ namespace NBAApi.Dto
 {
     public class DTO_DivisionDetails
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Logo { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public string? Logo { get; set; }
         public List<DTO_TeamSummary> Teams { get; set; }
 
 

@@ -12,7 +12,7 @@ using NBAApi.Data;
 namespace NBAApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231215150253_AddNbaDb")]
+    [Migration("20231215175826_AddNbaDb")]
     partial class AddNbaDb
     {
         /// <inheritdoc />
@@ -27,11 +27,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.Arena", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("Capacity")
                         .HasColumnType("int");
@@ -57,8 +54,8 @@ namespace NBAApi.Migrations
                     b.Property<string>("StateId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -71,11 +68,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.Conference", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
@@ -122,11 +116,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.Player", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Biography")
                         .HasColumnType("nvarchar(max)");
@@ -185,11 +176,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.SeasonType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -217,11 +205,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.Statistic", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double?>("AST_TOV")
                         .HasColumnType("float");
@@ -268,10 +253,11 @@ namespace NBAApi.Migrations
                     b.Property<int?>("PersonalFouls")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlayerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("PointsScored")
+                    b.Property<int?>("PointScored")
                         .HasColumnType("int");
 
                     b.Property<int?>("Rank")
@@ -283,14 +269,16 @@ namespace NBAApi.Migrations
                     b.Property<double?>("STL_TOV")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SeasonTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("SeasonTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("Steals")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("ThreePtFGAttempts")
                         .HasColumnType("int");
@@ -304,8 +292,9 @@ namespace NBAApi.Migrations
                     b.Property<int?>("Turnovers")
                         .HasColumnType("int");
 
-                    b.Property<int?>("YearId")
-                        .HasColumnType("int");
+                    b.Property<string>("YearId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -322,11 +311,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.Team", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Acronym")
                         .HasColumnType("nvarchar(max)");
@@ -334,8 +320,8 @@ namespace NBAApi.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ConferenceId")
-                        .HasColumnType("int");
+                    b.Property<string>("ConferenceId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DivisionId")
                         .HasColumnType("nvarchar(450)");
@@ -365,11 +351,8 @@ namespace NBAApi.Migrations
 
             modelBuilder.Entity("NBAApi.Models.Year", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Season")
                         .HasColumnType("nvarchar(max)");
@@ -383,11 +366,13 @@ namespace NBAApi.Migrations
                 {
                     b.HasOne("NBAApi.Models.State", "State")
                         .WithMany("Arenas")
-                        .HasForeignKey("StateId");
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("NBAApi.Models.Team", "Team")
                         .WithMany("Arenas")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("State");
 
@@ -398,11 +383,13 @@ namespace NBAApi.Migrations
                 {
                     b.HasOne("NBAApi.Models.Country", "Country")
                         .WithMany("Players")
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("NBAApi.Models.Position", "Position")
                         .WithMany("Players")
-                        .HasForeignKey("PositionId");
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Country");
 
@@ -413,19 +400,27 @@ namespace NBAApi.Migrations
                 {
                     b.HasOne("NBAApi.Models.Player", "Player")
                         .WithMany("Statistics")
-                        .HasForeignKey("PlayerId");
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("NBAApi.Models.SeasonType", "SeasonType")
                         .WithMany("Statistics")
-                        .HasForeignKey("SeasonTypeId");
+                        .HasForeignKey("SeasonTypeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("NBAApi.Models.Team", "Team")
                         .WithMany("Statistics")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("NBAApi.Models.Year", "Year")
                         .WithMany("Statistics")
-                        .HasForeignKey("YearId");
+                        .HasForeignKey("YearId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Player");
 
@@ -440,15 +435,18 @@ namespace NBAApi.Migrations
                 {
                     b.HasOne("NBAApi.Models.Conference", "Conference")
                         .WithMany("Teams")
-                        .HasForeignKey("ConferenceId");
+                        .HasForeignKey("ConferenceId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("NBAApi.Models.Division", "Division")
                         .WithMany("Teams")
-                        .HasForeignKey("DivisionId");
+                        .HasForeignKey("DivisionId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("NBAApi.Models.State", "State")
                         .WithMany("Teams")
-                        .HasForeignKey("StateId");
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Conference");
 
