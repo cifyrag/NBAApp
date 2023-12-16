@@ -100,7 +100,7 @@
     <a asp-action="GetPlayer" asp-route-id="@item.Id">
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                    <a asp-action="GetPlayer" asp-controller="Players" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Birthdate)

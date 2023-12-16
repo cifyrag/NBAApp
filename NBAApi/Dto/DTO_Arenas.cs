@@ -14,7 +14,7 @@ namespace NBAApi.Dto
         public bool HasNext { get; set; }
         public List<DTO_ArenaSummary> Records { get; set; }
 
-        public static DTO_Arenas? ToDTO_Arenas(List<DTO_ArenaSummary> arenas, int page=1, int pagesize=50)
+        public static DTO_Arenas? ToDTO_Arenas(List<DTO_ArenaSummary> arenas, int count, int page=1, int pagesize=50)
         {
             if (arenas.Count == null)
             {
@@ -24,12 +24,12 @@ namespace NBAApi.Dto
             page = page <= 1 ? 1 : page;
             return new DTO_Arenas
             {
-                TotalRecords = arenas.Count,
+                TotalRecords = count,
                 TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page>1,
-                HasNext = page< totalP,
+                 HasNext = page< totalP,
                 Records = arenas,
             };
         }

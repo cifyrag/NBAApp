@@ -53,7 +53,7 @@ namespace NBAWeb.Controllers
                     seasons = JsonConvert.DeserializeObject<List<DTO_SeasonSummary>>(data);
                 }
             }
-            return View("GetSeasonPage", DTO_Seasons.ToDTO_Seasons( seasons));
+            return View("GetSeasonPage", DTO_Seasons.ToDTO_Seasons( seasons, seasons.Count));
         }
 
         public IActionResult GetSeasonPage(int page, int pagesize)

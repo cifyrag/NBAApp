@@ -53,7 +53,7 @@ namespace NBAWeb.Controllers
                     states = JsonConvert.DeserializeObject<List<DTO_StateSummary>>(data);
                 }
             }
-            return View("GetStatesPage",DTO_States.ToDTO_States( states));
+            return View("GetStatesPage",DTO_States.ToDTO_States( states, states.Count));
         }
 
         public IActionResult GetStatesPage(int page, int pagesize)

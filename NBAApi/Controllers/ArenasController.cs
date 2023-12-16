@@ -43,8 +43,8 @@ namespace NBAApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_Arenas.ToDTO_Arenas(arenas.Select(x => DTO_ArenaSummary.ToDTO_ArenaSummary(x)).ToList()));
+            var res = arenas.Select(x => DTO_ArenaSummary.ToDTO_ArenaSummary(x)).ToList();
+            return Ok(DTO_Arenas.ToDTO_Arenas(res, res.Count));
         }
         //GET api/Arenas/{id}
         [HttpGet("{id}")]
@@ -52,12 +52,13 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_ArenaDetails))]
         public IActionResult GetArena( string id)
         {
-            if (!_context.Arenas.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.Arenas.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
 
             var arena = _context.Arenas
-                .Where(a => a.Id == id)
+                .Where(a => a.Id.ToLower() == id)
                 .FirstOrDefault();
             arena.State = _context.States.Where(u => u.Id == arena.StateId).FirstOrDefault();
             arena.Team = _context.Teams.Where(u => u.Id == arena.TeamId).FirstOrDefault();
@@ -75,8 +76,9 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(List<DTO_ArenaSummary>))]
         public IActionResult SearchArenas([FromQuery] string q)
         {
+            q = q.ToLower().Trim();
             var arenas = _context.Arenas
-                .Where(x => (x.Name.Trim().ToLower()).Contains(q.Trim().ToLower()))
+                .Where(x => (x.Name.Trim().ToLower()).Contains(q))
                 .ToList();
             foreach (var a in arenas)
             {

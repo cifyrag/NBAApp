@@ -31,19 +31,19 @@ namespace NBAApi.Controllers
                          .ToList();
             foreach (var a in seasons)
             {
-                var list = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
-                foreach (var el in list)
-                {
-                    a.Statistics.Add(el);
-                }
+                a.Statistics = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
+                //foreach (var el in list)
+                //{
+                //    a.Statistics.Add(el);
+                //}
 
             }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_Seasons.ToDTO_Seasons(seasons.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x)).ToList()));
+            var res = seasons.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x)).ToList();
+            return Ok(DTO_Seasons.ToDTO_Seasons(res, res.Count));
         }
 
         //GET api/Seasons/{id}
@@ -52,15 +52,25 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_SeasonDetails))]
         public IActionResult GetSeason( string id)
         {
-            if (!_context.Years.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.Years.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
             var season = _context.Years
-                .Where(a => a.Id == id)
+                .Where(a => a.Id.ToLower() == id)
                 .FirstOrDefault();
             var list = _context.Statistics.Where(u => u.YearId == season.Id).ToList();
             foreach (var el in list)
             {
+                el.Team = _context.Teams.Where(u => u.Id == el.TeamId).FirstOrDefault();
+                el.Team.State = _context.States.Where(u => u.Id == el.Team.StateId).FirstOrDefault();
+                el.Team.Conference = _context.Conferences.Where(c => c.Id == el.Team.ConferenceId).FirstOrDefault();
+                el.Team.Division = _context.Divisions.Where(c => c.Id == el.Team.DivisionId).FirstOrDefault();
+                el.Player = _context.Players.Where(c => c.Id == el.PlayerId).FirstOrDefault();
+                el.Player.Country = _context.Countries.Where(c => c.Id == el.Player.CountryId).FirstOrDefault(); 
+                el.Player.Position = _context.Positions.Where(c => c.Id == el.Player.PositionId).FirstOrDefault();
+                el.Year = _context.Years.Where(u => u.Id == el.YearId).FirstOrDefault();
+
                 season.Statistics.Add(el);
             }
             if (!ModelState.IsValid)
@@ -83,11 +93,11 @@ namespace NBAApi.Controllers
                 .ToList();
             foreach (var a in seasons)
             {
-                var list = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
-                foreach (var el in list)
-                {
-                    a.Statistics.Add(el);
-                }
+                a.Statistics = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
+                //foreach (var el in list)
+                //{
+                //    a.Statistics.Add(el);
+                //}
 
             }
             return Ok(seasons.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x)).ToList());
@@ -95,7 +105,8 @@ namespace NBAApi.Controllers
         }
 
         //GET api/Seasons? page = { page }&pagesize={pagesize}
-        [HttpGet("/Page")]
+        [HttpGet]
+        [Route("Page")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_Seasons))]
         public IActionResult GetSeasonPage([FromQuery] int page, [FromQuery] int pagesize)
@@ -108,11 +119,11 @@ namespace NBAApi.Controllers
                         .ToList();
             foreach (var a in seasons)
             {
-                var list = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
-                foreach (var el in list)
-                {
-                    a.Statistics.Add(el);
-                }
+                a.Statistics = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
+                //foreach (var el in list)
+                //{
+                //    a.Statistics.Add(el);
+                //}
 
             }
             if (!ModelState.IsValid)

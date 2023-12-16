@@ -1,5 +1,5 @@
-﻿using NBAWeb.Models;
-using NBAWeb.Models;
+﻿ 
+ 
 
 namespace NBAWeb.Models
 {
@@ -13,20 +13,23 @@ namespace NBAWeb.Models
         public bool HasNext { get; set; }
         public List<DTO_SearchDetails> Records { get; set; }
 
-         public static DTO_Search? ToDTO_Searchs(List<DTO_SearchDetails> searches, int page, int pagesize)
+         public static DTO_Search? ToDTO_Searchs(List<DTO_SearchDetails> searches,int count, int page, int pagesize)
         {
             if (searches.Count == null)
             {
                 return null;
             }
+            var totalP = searches.Count / pagesize > 0 ? searches.Count / pagesize : 1;
+            page = page <= 1 ? 1 : page;
+
             return new DTO_Search
             {
-                TotalRecords = searches.Count,
-                TotalPages = searches.Count / pagesize > 0 ? searches.Count / pagesize : 1,
+                TotalRecords = count,
+                TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page > 1,
-                HasNext = page < searches.Count,
+                 HasNext = page< totalP,
                 Records = searches,
             };
         }

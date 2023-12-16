@@ -26,6 +26,7 @@ namespace NBAApi.Dto
             {
                 return null;
             }
+            
             return new DTO_TeamDetails
             {
                 Id = team.Id,
@@ -40,8 +41,8 @@ namespace NBAApi.Dto
                 City = team.City,
                 Logo = team.Logo,
                 History = team.History,
-                Players = team.Statistics.Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x.Player)).ToList(),
-                Seasons = team.Statistics.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x.Year)).ToList(),
+                Players = team.Statistics.Where(e => e.TeamId == team.Id).Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x.Player)).ToList(),
+                Seasons = team.Statistics.Where(e => e.TeamId == team.Id).Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x.Year)).ToList(),
 
             };
         }

@@ -29,10 +29,13 @@ namespace NBAApi.Controllers
                         .ToList();
             foreach (var a in seasonTypes)
             {
-                var list = _context.Statistics.Where(u => u.SeasonTypeId == a.Id).ToList();
-                foreach (var el in list)
+                a.Statistics = _context.Statistics.Where(u => u.SeasonTypeId == a.Id).ToList();
+                foreach (var el in a.Statistics)
                 {
-                    a.Statistics.Add(el);
+
+                    el.Year = _context.Years.Where(u => u.Id == el.YearId).FirstOrDefault();
+
+                    
                 }
 
             }
@@ -40,8 +43,8 @@ namespace NBAApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_SeasonTypes.ToDTO_SeasonTypes(seasonTypes.Select(x => DTO_SeasonTypeSummary.ToDTO_SeasonTypeSummary(x)).ToList()));
+            var res = seasonTypes.Select(x => DTO_SeasonTypeSummary.ToDTO_SeasonTypeSummary(x)).ToList();
+            return Ok(DTO_SeasonTypes.ToDTO_SeasonTypes(res, res.Count));
         }
 
 
@@ -51,16 +54,17 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_SeasonTypeDetails))]
         public IActionResult GetSeasonType( string id)
         {
-            if (!_context.SeasonTypes.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.SeasonTypes.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
             var seasonType = _context.SeasonTypes
-                .Where(a => a.Id == id)
+                .Where(a => a.Id.ToLower() == id)
                 .FirstOrDefault();
-            var list = _context.Statistics.Where(u => u.SeasonTypeId == seasonType.Id).ToList();
-            foreach (var el in list)
+            seasonType.Statistics = _context.Statistics.Where(u => u.SeasonTypeId == seasonType.Id).ToList();
+            foreach (var el in seasonType.Statistics)
             {
-                seasonType.Statistics.Add(el);
+                el.Year = _context.Years.Where(u => u.Id == el.YearId).FirstOrDefault();
             }
             if (!ModelState.IsValid)
             {
@@ -72,3 +76,4 @@ namespace NBAApi.Controllers
 
     }
 }
+

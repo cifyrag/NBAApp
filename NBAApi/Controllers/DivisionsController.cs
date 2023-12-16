@@ -43,8 +43,8 @@ namespace NBAApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_Divisions.ToDTO_Divisions(divisions.Select(x => DTO_DivisionSummary.ToDTO_DivisionSummary(x)).ToList()));
+            var res = divisions.Select(x => DTO_DivisionSummary.ToDTO_DivisionSummary(x)).ToList();
+            return Ok(DTO_Divisions.ToDTO_Divisions(res, res.Count));
 
         }
 
@@ -54,16 +54,20 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_DivisionDetails))]
         public IActionResult GetDivision(string id)
         {
-
-            if (!_context.Divisions.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.Divisions.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
             var division = _context.Divisions
-                .Where(a => a.Id == id)
+                .Where(a => a.Id.ToLower() == id)
                 .FirstOrDefault();
             var list = _context.Teams.Where(u => u.DivisionId == division.Id).ToList();
             foreach (var el in list)
             {
+                el.Conference = _context.Conferences.Where(c => c.Id == el.ConferenceId).FirstOrDefault();
+                el.Division = _context.Divisions.Where(c => c.Id == el.DivisionId).FirstOrDefault();
+                el.State = _context.States.Where(c => c.Id == el.StateId).FirstOrDefault();
+
                 division.Teams.Add(el);
             }
             if (!ModelState.IsValid)

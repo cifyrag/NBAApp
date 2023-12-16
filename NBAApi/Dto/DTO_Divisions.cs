@@ -1,6 +1,7 @@
 ﻿using NBAApi.Dto;
 using NBAApi.Dto;
 using NBAApi.Dto;
+using NBAApi.Models;
 
 namespace NBAApi.Dto
 {
@@ -14,20 +15,23 @@ namespace NBAApi.Dto
         public bool HasNext { get; set; }
         public List<DTO_DivisionSummary> Records { get; set; }
 
-        public static DTO_Divisions? ToDTO_Divisions(List<DTO_DivisionSummary> divisions, int page=1, int pagesize=50)
+        public static DTO_Divisions? ToDTO_Divisions(List<DTO_DivisionSummary> divisions, int count, int page=1, int pagesize=50)
         {
             if (divisions.Count == null)
             {
                 return null;
             }
+            var totalP = divisions.Count / pagesize > 0 ? divisions.Count / pagesize : 1;
+            page = page <= 1 ? 1 : page;
+            
             return new DTO_Divisions
             {
-                TotalRecords = divisions.Count,
-                TotalPages = divisions.Count / pagesize,
+                TotalRecords = count,
+                TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page > 1,
-                HasNext = page < divisions.Count,
+                 HasNext = page< totalP,
                 Records = divisions,
             };
         }

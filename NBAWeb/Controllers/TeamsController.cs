@@ -53,7 +53,7 @@ namespace NBAWeb.Controllers
                     teams = JsonConvert.DeserializeObject<List<DTO_TeamSummary>>(data);
                 }
             }
-            return View("GetTeamsPage", DTO_Teams.ToDTO_Teams( teams));
+            return View("GetTeamsPage", DTO_Teams.ToDTO_Teams( teams, teams.Count));
         }
 
         public IActionResult GetTeamsPage(int page, int pagesize)

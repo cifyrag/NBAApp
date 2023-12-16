@@ -24,47 +24,68 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_Teams))]
         public IActionResult GetTeams()
         {
-            var players =
+            var teams =
                     _context.Teams
                         .OrderBy(a => a.Name)
                         .Take(50)
                         .ToList();
-            foreach (var a in players)
+            foreach (var a in teams)
             {
                 a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault(); 
                 a.Division = _context.Divisions.Where(u => u.Id == a.DivisionId).FirstOrDefault();
                 a.Conference = _context.Conferences.Where(u => u.Id == a.ConferenceId).FirstOrDefault();
+                var list = _context.Statistics.Where(u => u.TeamId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
+                
             }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_Teams.ToDTO_Teams(players.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x)).ToList()));
+            var res = teams.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x)).ToList();
+            return Ok(DTO_Teams.ToDTO_Teams(res, res.Count));
         }
 
         //GET api/Teams/{id}? acronym = { acronym }
         [HttpGet("{id}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_TeamDetails))]
-        public IActionResult GetTeam( string id, [FromQuery] string acronym)
+        public IActionResult GetTeam( string id, [FromQuery] string? acronym)
         {
-            if (!_context.Teams.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.Teams.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
-            var player = _context.Teams
-                .Where(a => a.Id == id)
+            var team = _context.Teams
+                .Where(a => a.Id.ToLower() == id || a.Acronym== acronym)
                 .FirstOrDefault();
-            player.State = _context.States.Where(u => u.Id == player.StateId).FirstOrDefault();
-            player.Division = _context.Divisions.Where(u => u.Id == player.DivisionId).FirstOrDefault();
-            player.Conference = _context.Conferences.Where(u => u.Id == player.ConferenceId).FirstOrDefault();
+            team.State = _context.States.Where(u => u.Id == team.StateId).FirstOrDefault();
+            team.Division = _context.Divisions.Where(u => u.Id == team.DivisionId).FirstOrDefault();
+            team.Conference = _context.Conferences.Where(u => u.Id == team.ConferenceId).FirstOrDefault();
+            team.Statistics = _context.Statistics.Where(u => u.TeamId == team.Id).ToList();
+            var list = _context.Statistics.Where(u => u.TeamId == team.Id).ToList();
+            foreach (var el in list)
+            {
+                el.Team = _context.Teams.Where(u => u.Id == el.TeamId).FirstOrDefault();
+                el.Team.State = _context.States.Where(u => u.Id == el.Team.StateId).FirstOrDefault();
+                el.Team.Conference = _context.Conferences.Where(c => c.Id == el.Team.ConferenceId).FirstOrDefault();
+                el.Team.Division = _context.Divisions.Where(c => c.Id == el.Team.DivisionId).FirstOrDefault();
+                el.Player = _context.Players.Where(c => c.Id == el.PlayerId).FirstOrDefault();
+                el.Player.Country = _context.Countries.Where(c => c.Id == el.Player.CountryId).FirstOrDefault();
+                el.Player.Position = _context.Positions.Where(c => c.Id == el.Player.PositionId).FirstOrDefault();
+                el.Year = _context.Years.Where(u => u.Id == el.YearId).FirstOrDefault();
 
+                team.Statistics.Add(el);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_TeamDetails.ToDTO_TeamDetails(player));
+            
+            return Ok(DTO_TeamDetails.ToDTO_TeamDetails(team));
         }
 
         //GET api/Teams/Search?q={q}
@@ -72,21 +93,28 @@ namespace NBAApi.Controllers
         [Route("Search")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(List<DTO_TeamSummary>))]
-        public IActionResult GetPlayersBySeason([FromQuery] string q)
+        public IActionResult SearchTeams([FromQuery] string q)
         {
-            var players = _context.Players
-                .Where(x => (x.Name.Trim().ToLower()).Contains(q.Trim().ToLower()))
+            q = q.ToLower().Trim();
+            var teams = _context.Teams
+                .Where(x => x.Name.Trim().ToLower().Contains(q))
                 .ToList();
-            foreach (var a in players)
+            foreach (var a in teams)
             {
-                a.Country = _context.Countries.Where(u => u.Id == a.CountryId).FirstOrDefault();
-                a.Position = _context.Positions.Where(u => u.Id == a.PositionId).FirstOrDefault();
+                a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault();
+                a.Division = _context.Divisions.Where(u => u.Id == a.DivisionId).FirstOrDefault();
+                a.Conference = _context.Conferences.Where(u => u.Id == a.ConferenceId).FirstOrDefault();
+                var list = _context.Statistics.Where(u => u.TeamId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
             }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(players.Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x)).ToList());
+            return Ok(teams.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x)).ToList());
         }
 
         //GET api/Teams?page={page}&pagesize ={ pagesize}
@@ -96,17 +124,22 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_Teams))]
         public IActionResult SearchTeams([FromQuery] int page, [FromQuery] int pagesize)
         {
-            var players =
+            var teams =
                     _context.Teams
                         .OrderBy(a => a.Id)
                         .Skip((page - 1) * pagesize)
                         .Take(pagesize)
                         .ToList();
-            foreach (var a in players)
+            foreach (var a in teams)
             {
                 a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault();
                 a.Division = _context.Divisions.Where(u => u.Id == a.DivisionId).FirstOrDefault();
                 a.Conference = _context.Conferences.Where(u => u.Id == a.ConferenceId).FirstOrDefault();
+                var list = _context.Statistics.Where(u => u.TeamId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
             }
             if (!ModelState.IsValid)
             {
@@ -114,7 +147,7 @@ namespace NBAApi.Controllers
             }
 
 
-            return Ok(DTO_Teams.ToDTO_Teams(players.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x)).ToList(), page, pagesize));
+            return Ok(DTO_Teams.ToDTO_Teams(teams.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x)).ToList(), page, pagesize));
 
         }
 

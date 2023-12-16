@@ -31,25 +31,25 @@ namespace NBAApi.Controllers
                         .ToList();
             foreach (var a in states)
             {
-                var list = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
-                var list2 = _context.Teams.Where(u => u.StateId == a.Id).ToList();
-                foreach (var el in list)
-                {
-                    a.Arenas.Add(el);
-                }
-                foreach (var el in list2)
-                {
-                    a.Teams.Add(el);
-                }
-                
+                a.Arenas = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
+                a.Teams = _context.Teams.Where(u => u.StateId == a.Id).ToList();
+                //foreach (var el in a.Arenas)
+                //{
+                //    a.Arenas.Add(el);
+                //}
+                //foreach (var el in list2)
+                //{
+                //    a.Teams.Add(el);
+                //}
+
 
             }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_States.ToDTO_States(states.Select(x => DTO_StateSummary.ToDTO_StateSummary(x)).ToList()));
+            var res = states.Select(x => DTO_StateSummary.ToDTO_StateSummary(x)).ToList();
+            return Ok(DTO_States.ToDTO_States(res, res.Count));
         }
 
         //GET api/States/{id}
@@ -58,22 +58,31 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_StateDetails))]
         public IActionResult GetState( string id)
         {
-            if (!_context.States.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.States.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
             var state = _context.States
-                .Where(a => a.Id == id)
+                .Where(a => a.Id.ToLower() == id)
                 .FirstOrDefault();
-            var list = _context.Arenas.Where(u => u.StateId == state.Id).ToList();
-            var list2 = _context.Teams.Where(u => u.StateId == state.Id).ToList();
-            foreach (var el in list)
+            state.Arenas = _context.Arenas.Where(u => u.StateId == state.Id).ToList();
+            
+            
+            foreach (var el in state.Arenas)
             {
-                state.Arenas.Add(el);
+                el.State = _context.States.Where(u => u.Id == el.StateId).FirstOrDefault();
+                el.Team = _context.Teams.Where(u => u.Id == el.TeamId).FirstOrDefault();
+
             }
-            foreach (var el in list2)
+            state.Teams = _context.Teams.Where(u => u.StateId == state.Id).ToList();
+            foreach (var a in state.Teams)
             {
-                state.Teams.Add(el);
+                a.State = _context.States.Where(u => u.Id == a.StateId).FirstOrDefault();
+                a.Division = _context.Divisions.Where(u => u.Id == a.DivisionId).FirstOrDefault();
+                a.Conference = _context.Conferences.Where(u => u.Id == a.ConferenceId).FirstOrDefault();
+                
             }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -94,16 +103,16 @@ namespace NBAApi.Controllers
                 .ToList();
             foreach (var a in states)
             {
-                var list = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
-                var list2 = _context.Teams.Where(u => u.StateId == a.Id).ToList();
-                foreach (var el in list)
-                {
-                    a.Arenas.Add(el);
-                }
-                foreach (var el in list2)
-                {
-                    a.Teams.Add(el);
-                }
+                a.Arenas = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
+                a.Teams = _context.Teams.Where(u => u.StateId == a.Id).ToList();
+                //foreach (var el in a.Arenas)
+                //{
+                //    a.Arenas.Add(el);
+                //}
+                //foreach (var el in list2)
+                //{
+                //    a.Teams.Add(el);
+                //}
 
 
             }
@@ -131,16 +140,16 @@ namespace NBAApi.Controllers
                         .ToList();
             foreach (var a in states)
             {
-                var list = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
-                var list2 = _context.Teams.Where(u => u.StateId == a.Id).ToList();
-                foreach (var el in list)
-                {
-                    a.Arenas.Add(el);
-                }
-                foreach (var el in list2)
-                {
-                    a.Teams.Add(el);
-                }
+                a.Arenas = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
+                a.Teams = _context.Teams.Where(u => u.StateId == a.Id).ToList();
+                //foreach (var el in a.Arenas)
+                //{
+                //    a.Arenas.Add(el);
+                //}
+                //foreach (var el in list2)
+                //{
+                //    a.Teams.Add(el);
+                //}
 
 
             }

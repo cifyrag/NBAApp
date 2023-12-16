@@ -1,4 +1,5 @@
 ﻿using NBAApi.Dto;
+using NBAApi.Models;
 
 namespace NBAApi.Dto
 {
@@ -12,20 +13,23 @@ namespace NBAApi.Dto
         public bool HasNext { get; set; }
         public List<DTO_SeasonSummary> Records { get; set; }
 
-        public static DTO_Seasons? ToDTO_Seasons(List<DTO_SeasonSummary> seasons, int page=1, int pagesize=50)
+        public static DTO_Seasons? ToDTO_Seasons(List<DTO_SeasonSummary> seasons, int count, int page=1, int pagesize=50)
         {
             if (seasons.Count == null)
             {
                 return null;
             }
+            var totalP = seasons.Count / pagesize > 0 ? seasons.Count / pagesize : 1;
+            page = page <= 1 ? 1 : page;
+
             return new DTO_Seasons
             {
-                TotalRecords = seasons.Count,
-                TotalPages = seasons.Count / pagesize,
+                TotalRecords = count,
+                TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page > 1,
-                HasNext = page < seasons.Count,
+                 HasNext = page< totalP,
                 Records = seasons,
             };
         }

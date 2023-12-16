@@ -1,4 +1,4 @@
-﻿using NBAWeb.Models;
+﻿ 
 
 namespace NBAWeb.Models
 {
@@ -12,20 +12,22 @@ namespace NBAWeb.Models
         public bool HasNext { get; set; }
         public List<DTO_ConferenceSummary> Records { get; set; }
 
-        public static DTO_Conference? ToDTO_Conference(List<DTO_ConferenceSummary> conferences, int page=1, int pagesize=50)
+        public static DTO_Conference? ToDTO_Conference(List<DTO_ConferenceSummary> conferences, int count, int page=1, int pagesize=50)
         {
             if (conferences.Count == null)
             {
                 return null;
             }
+            var totalP = conferences.Count / pagesize > 0 ? conferences.Count / pagesize : 1;
+            page = page <= 1 ? 1 : page;
             return new DTO_Conference
             {
-                TotalRecords = conferences.Count,
-                TotalPages = conferences.Count / pagesize > 0 ? conferences.Count / pagesize : 1,
+                TotalRecords = count,
+                TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page > 1,
-                HasNext = page < conferences.Count,
+                 HasNext = page< totalP,
                 Records = conferences,
             };
         }

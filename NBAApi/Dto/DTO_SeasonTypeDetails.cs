@@ -18,7 +18,7 @@ namespace NBAApi.Dto
             {
                 Id = seasonType.Id,
                 Name = seasonType.Name,
-                Seasons = seasonType.Statistics.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x.Year)).ToList(),
+                Seasons = seasonType.Statistics.Where(e => e.SeasonTypeId == seasonType.Id).Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x.Year)).ToList(),
             };
         }
     }

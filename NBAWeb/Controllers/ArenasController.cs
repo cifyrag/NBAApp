@@ -56,7 +56,7 @@ namespace NBAWeb.Controllers
                     arenas = JsonConvert.DeserializeObject<List<DTO_ArenaSummary>>(data);
                 }
             }
-            return View("GetArenasPage", DTO_Arenas.ToDTO_Arenas(arenas));
+            return View("GetArenasPage", DTO_Arenas.ToDTO_Arenas(arenas, arenas.Count));
         }
 
         public IActionResult GetArenasPage(int page, int pagesize)

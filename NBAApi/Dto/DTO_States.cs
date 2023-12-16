@@ -12,20 +12,23 @@ namespace NBAApi.Dto
         public bool HasNext { get; set; }
         public List<DTO_StateSummary> Records { get; set; }
 
-        public static DTO_States? ToDTO_States(List<DTO_StateSummary> states, int page=1, int pagesize=50)
+        public static DTO_States? ToDTO_States(List<DTO_StateSummary> states, int count, int page=1, int pagesize=50)
         {
             if (states.Count == null)
             {
                 return null;
             }
+            var totalP = states.Count / pagesize > 0 ? states.Count / pagesize : 1;
+            page = page <= 1 ? 1 : page;
+
             return new DTO_States
             {
-                TotalRecords = states.Count,
-                TotalPages = states.Count / pagesize,
+                TotalRecords = count,
+                TotalPages = totalP,
                 CurrentPage = page,
                 PageSize = pagesize,
                 HasPrevious = page > 1,
-                HasNext = page < states.Count,
+                 HasNext = page< totalP,
                 Records = states,
             };
         }

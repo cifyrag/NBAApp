@@ -43,8 +43,9 @@ namespace NBAWeb.Controllers
             return View(players);
         }
 
-        public IActionResult SearchPlayer(string q)
+        public IActionResult SearchPlayers(string q)
         {
+            
             List<DTO_PlayerSummary> players = new List<DTO_PlayerSummary>();
             using (HttpResponseMessage response = _httpClient.GetAsync(baseAddress + $"/Players/Search?q={q}").Result)
             {
@@ -54,7 +55,7 @@ namespace NBAWeb.Controllers
                     players = JsonConvert.DeserializeObject<List<DTO_PlayerSummary>>(data);
                 }
             }
-            return View("GetPlayersPage",DTO_Players.ToDTO_Players( players));
+            return View("GetPlayersPage", DTO_Players.ToDTO_Players( players, players.Count));
         }
 
         public IActionResult GetPlayersPage(int page, int pagesize)

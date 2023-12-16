@@ -43,8 +43,8 @@ namespace NBAApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            return Ok(DTO_Conference.ToDTO_Conference(conferences.Select(x => DTO_ConferenceSummary.ToDTO_ConferenceSummary(x)).ToList()));
+            var res = conferences.Select(x => DTO_ConferenceSummary.ToDTO_ConferenceSummary(x)).ToList();
+            return Ok(DTO_Conference.ToDTO_Conference(res, res.Count));
 
         }
 
@@ -55,15 +55,19 @@ namespace NBAApi.Controllers
         [ProducesResponseType(200, Type = typeof(DTO_ConferenceDetails))]
         public IActionResult GetConference(string id)
         {
-            if (!_context.Conferences.Any(c => c.Id == id))
+            id = id.Trim().ToLower();
+            if (!_context.Conferences.Any(c => c.Id.ToLower() == id))
                 return NotFound();
 
             var conference = _context.Conferences
-                .Where(a => a.Id == id)
+                .Where(a => a.Id.ToLower() == id)
                 .FirstOrDefault();
             var list = _context.Teams.Where(u => u.ConferenceId == conference.Id).ToList();
             foreach (var el in list)
             {
+                el.Conference = _context.Conferences.Where(c => c.Id == el.ConferenceId).FirstOrDefault();
+                el.Division = _context.Divisions.Where(c => c.Id == el.DivisionId).FirstOrDefault();
+                el.State = _context.States.Where(c => c.Id == el.StateId).FirstOrDefault();
                 conference.Teams.Add(el);
             }
             if (!ModelState.IsValid)

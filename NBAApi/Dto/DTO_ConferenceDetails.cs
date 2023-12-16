@@ -19,6 +19,7 @@ namespace NBAApi.Dto
             {
                 return null;
             }
+            
             return new DTO_ConferenceDetails
             {
                 Id = conference.Id,

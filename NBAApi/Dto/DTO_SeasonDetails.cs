@@ -21,8 +21,8 @@ namespace NBAApi.Dto
             {
                 Id = season.Id,
                 Season = season.Season,
-                Teams = season.Statistics.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x.Team)).ToList(),
-                Players = season.Statistics.Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x.Player)).ToList(),
+                Teams = season.Statistics.Where(e => e.YearId == season.Id).Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x.Team)).ToList(),
+                Players = season.Statistics.Where(e => e.YearId == season.Id).Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x.Player)).ToList(),
             };
         }
     }
