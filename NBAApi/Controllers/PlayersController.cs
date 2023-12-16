@@ -34,6 +34,11 @@ namespace NBAApi.Controllers
             {
                 a.Country = _context.Countries.Where(u => u.Id == a.CountryId).FirstOrDefault();
                 a.Position = _context.Positions.Where(u => u.Id == a.PositionId).FirstOrDefault();
+                var list = _context.Statistics.Where(u => u.SeasonTypeId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
             }
             if (!ModelState.IsValid)
             {
@@ -58,7 +63,11 @@ namespace NBAApi.Controllers
                 .FirstOrDefault();
             player.Country = _context.Countries.Where(u => u.Id == player.CountryId).FirstOrDefault();
             player.Position = _context.Positions.Where(u => u.Id == player.PositionId).FirstOrDefault();
-
+            var list = _context.Statistics.Where(u => u.SeasonTypeId == player.Id).ToList();
+            foreach (var el in list)
+            {
+                player.Statistics.Add(el);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -81,6 +90,11 @@ namespace NBAApi.Controllers
             {
                 a.Country = _context.Countries.Where(u => u.Id == a.CountryId).FirstOrDefault();
                 a.Position = _context.Positions.Where(u => u.Id == a.PositionId).FirstOrDefault();
+                var list = _context.Statistics.Where(u => u.SeasonTypeId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
             }
             if (!ModelState.IsValid)
             {
@@ -107,6 +121,11 @@ namespace NBAApi.Controllers
             {
                 a.Country = _context.Countries.Where(u => u.Id == a.CountryId).FirstOrDefault();
                 a.Position = _context.Positions.Where(u => u.Id == a.PositionId).FirstOrDefault();
+                var list = _context.Statistics.Where(u => u.SeasonTypeId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
             }
             if (!ModelState.IsValid)
             {

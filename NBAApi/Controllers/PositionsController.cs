@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
  
 using NBAApi.Data;
 using NBAApi.Dto;
+using NBAApi.Models;
 
 namespace NBAApi.Controllers
 {
@@ -28,6 +29,15 @@ namespace NBAApi.Controllers
                         .OrderBy(a => a.Name)
                         .Take(50)
                         .ToList();
+            foreach (var a in positions)
+            {
+                var list = _context.Players.Where(u => u.PositionId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Players.Add(el);
+                }
+
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -47,7 +57,11 @@ namespace NBAApi.Controllers
             var position = _context.Positions
                 .Where(a => a.Id == id)
                 .FirstOrDefault();
-
+            var list = _context.Players.Where(u => u.PositionId == position.Id).ToList();
+            foreach (var el in list)
+            {
+                position.Players.Add(el);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

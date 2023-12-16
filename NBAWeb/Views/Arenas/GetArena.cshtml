@@ -10,22 +10,21 @@
             <td align="left">
 
                 <p>
-                    <h1>Arena Details</h1>
+                    <h1> @Html.DisplayFor(model => model.Name) Arena Details</h1>
                 </p>
             </td>
-            <td width="60%">
-                <form asp-action="GetArena">
+            @* <td width="60%">
+              <form asp-action="GetArena">
 
                     <div class="form-group">
-                       @*  <label for="id" class="control-label">Search Category by ID or Name</label> *@
-                        <input name="id" class="form-control" />
+                      <input name="id" class="form-control" />
                     </div>
                     <p>  </p>
                     <div class="form-group">
                         <input type="submit" value="Search" class="btn btn-primary" />
                     </div>
                 </form>
-            </td>
+            </td>  *@
 
             
         </tr>
@@ -92,16 +91,18 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
+            <img  src="@Html.DisplayFor(model => model.Photo)" height="300px" alt=" @Html.DisplayFor(model => model.Name)" />
         </dd>
       
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="GetArenas">
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
-            <path d="M 3 9 A 1.0001 1.0001 0 1 0 3 11 L 47 11 A 1.0001 1.0001 0 1 0 47 9 L 3 9 z M 3 24 A 1.0001 1.0001 0 1 0 3 26 L 47 26 A 1.0001 1.0001 0 1 0 47 24 L 3 24 z M 3 39 A 1.0001 1.0001 0 1 0 3 41 L 47 41 A 1.0001 1.0001 0 1 0 47 39 L 3 39 z"></path>
+        <svg   xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+           
+        
+    </style>
+            <path fill="gray"  d="M 3 9 A 1.0001 1.0001 0 1 0 3 11 L 47 11 A 1.0001 1.0001 0 1 0 47 9 L 3 9 z M 3 24 A 1.0001 1.0001 0 1 0 3 26 L 47 26 A 1.0001 1.0001 0 1 0 47 24 L 3 24 z M 3 39 A 1.0001 1.0001 0 1 0 3 41 L 47 41 A 1.0001 1.0001 0 1 0 47 39 L 3 39 z"></path>
         </svg>
     </a>
 </div>

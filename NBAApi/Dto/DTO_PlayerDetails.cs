@@ -32,11 +32,11 @@ namespace NBAApi.Dto
                 Id = player.Id,
                 Name = player.Name,
                 Birthdate = player.Birthdate,
-                CountryId = player.Country.Id,
-                CountryName = player.Country.Name,
+                CountryId = player.Country==null? null: player.Country.Id,
+                CountryName = player.Country == null ? null : player.Country.Name,
                 DraftYear = player.DraftYear,
-                PositionId = player.Position.Id,
-                PositionName = player.Position.Name,
+                PositionId = player.Position == null ? null : player.Position.Id,
+                PositionName = player.Position == null ? null : player.Position.Name,
                 Height = player.Height.ToString(),
                 Weight = player.Weight.ToString(),
                 School = player.School,
@@ -44,8 +44,9 @@ namespace NBAApi.Dto
                 Biography = player.Biography,
 
                 Teams = player.Statistics.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x.Team)).ToList(),
+                
                 Seasons = player.Statistics.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x.Year)).ToList(),
-
+                
 
             };
         }

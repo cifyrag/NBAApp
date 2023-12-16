@@ -30,7 +30,15 @@ namespace NBAApi.Controllers
                         .OrderBy(a => a.Name)
                         .Take(50)
                         .ToList();
-            
+            foreach (var a in conferences)
+            {
+                var list = _context.Teams.Where(u => u.ConferenceId==a.Id).ToList();
+                foreach(var el in list)
+                {
+                    a.Teams.Add(el);
+                }
+   
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -53,7 +61,11 @@ namespace NBAApi.Controllers
             var conference = _context.Conferences
                 .Where(a => a.Id == id)
                 .FirstOrDefault();
-
+            var list = _context.Teams.Where(u => u.ConferenceId == conference.Id).ToList();
+            foreach (var el in list)
+            {
+                conference.Teams.Add(el);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

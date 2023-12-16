@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
  
 using NBAApi.Data;
 using NBAApi.Dto;
+using NBAApi.Models;
 
 namespace NBAApi.Controllers
 {
@@ -28,6 +29,15 @@ namespace NBAApi.Controllers
                          .OrderBy(a => a.Id)
                          .Take(50)
                          .ToList();
+            foreach (var a in seasons)
+            {
+                var list = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
+
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -48,7 +58,11 @@ namespace NBAApi.Controllers
             var season = _context.Years
                 .Where(a => a.Id == id)
                 .FirstOrDefault();
-
+            var list = _context.Statistics.Where(u => u.YearId == season.Id).ToList();
+            foreach (var el in list)
+            {
+                season.Statistics.Add(el);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -67,6 +81,15 @@ namespace NBAApi.Controllers
             var seasons = _context.Years
                 .Where(x => (x.Season.Trim().ToLower()).Contains(q.Trim().ToLower()))
                 .ToList();
+            foreach (var a in seasons)
+            {
+                var list = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
+
+            }
             return Ok(seasons.Select(x => DTO_SeasonSummary.ToDTO_SeasonSummary(x)).ToList());
 
         }
@@ -83,6 +106,15 @@ namespace NBAApi.Controllers
                         .Skip((page - 1) * pagesize)
                         .Take(pagesize)
                         .ToList();
+            foreach (var a in seasons)
+            {
+                var list = _context.Statistics.Where(u => u.YearId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Statistics.Add(el);
+                }
+
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

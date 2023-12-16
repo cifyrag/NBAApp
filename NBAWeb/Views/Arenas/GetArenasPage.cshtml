@@ -91,16 +91,19 @@
             <th>Team</th>
             <th>Location</th>
             <th></th>
+            
         </tr>
     </thead>
+    
     <tbody>
 @foreach (var item in Model.Records) {
-         <a asp-action="GetArena" asp-route-id="@item.Id">
+         
 
             <tr>
                 <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        <a asp-action="GetArena" asp-controller="Arenas" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
                 </td>
+
                 <td>
                         @Html.DisplayFor(modelItem => item.TeamName)
                 </td>
@@ -109,7 +112,7 @@
                 </td>
 
             </tr>
-        </a>
+            
 }
     </tbody>
 </table>

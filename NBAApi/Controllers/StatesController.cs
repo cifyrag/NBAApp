@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using NBAApi.Data;
 using NBAApi.Dto;
+using NBAApi.Models;
 
 namespace NBAApi.Controllers
 {
@@ -28,6 +29,21 @@ namespace NBAApi.Controllers
                         .OrderBy(a => a.Name)
                         .Take(50)
                         .ToList();
+            foreach (var a in states)
+            {
+                var list = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
+                var list2 = _context.Teams.Where(u => u.StateId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Arenas.Add(el);
+                }
+                foreach (var el in list2)
+                {
+                    a.Teams.Add(el);
+                }
+                
+
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -48,7 +64,16 @@ namespace NBAApi.Controllers
             var state = _context.States
                 .Where(a => a.Id == id)
                 .FirstOrDefault();
-
+            var list = _context.Arenas.Where(u => u.StateId == state.Id).ToList();
+            var list2 = _context.Teams.Where(u => u.StateId == state.Id).ToList();
+            foreach (var el in list)
+            {
+                state.Arenas.Add(el);
+            }
+            foreach (var el in list2)
+            {
+                state.Teams.Add(el);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -67,6 +92,26 @@ namespace NBAApi.Controllers
             var states = _context.States
                 .Where(x => (x.Name.Trim().ToLower()).Contains(q.Trim().ToLower()))
                 .ToList();
+            foreach (var a in states)
+            {
+                var list = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
+                var list2 = _context.Teams.Where(u => u.StateId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Arenas.Add(el);
+                }
+                foreach (var el in list2)
+                {
+                    a.Teams.Add(el);
+                }
+
+
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return Ok(states.Select(x => DTO_StateSummary.ToDTO_StateSummary(x)).ToList());
 
         }
@@ -84,6 +129,21 @@ namespace NBAApi.Controllers
                         .Skip((page - 1) * pagesize)
                         .Take(pagesize)
                         .ToList();
+            foreach (var a in states)
+            {
+                var list = _context.Arenas.Where(u => u.StateId == a.Id).ToList();
+                var list2 = _context.Teams.Where(u => u.StateId == a.Id).ToList();
+                foreach (var el in list)
+                {
+                    a.Arenas.Add(el);
+                }
+                foreach (var el in list2)
+                {
+                    a.Teams.Add(el);
+                }
+
+
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
