@@ -146,7 +146,6 @@ namespace NBAApi.Controllers
                 return BadRequest(ModelState);
             }
 
-
             return Ok(DTO_Teams.ToDTO_Teams(teams.Select(x => DTO_TeamSummary.ToDTO_TeamSummary(x)).ToList(), page, pagesize));
 
         }

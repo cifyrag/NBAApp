@@ -28,7 +28,10 @@ namespace NBAWeb.Models
                 PageSize = pagesize,
                 HasPrevious = page > 1,
                  HasNext = page< totalP,
-                Records = conferences,
+                Records = conferences.OrderBy(a => a.Id)
+                        .Skip((page - 1) * pagesize)
+                        .Take(pagesize)
+                        .ToList(),
             };
         }
     }

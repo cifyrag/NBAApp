@@ -19,6 +19,7 @@ namespace NBAApi.Dto
             {
                 return null;
             }
+            pagesize = pagesize < 1 ? 1 : pagesize;
             var totalP = count / pagesize > 0 ? count / pagesize : 1;
             page = page <= 1 ? 1 : page;
 

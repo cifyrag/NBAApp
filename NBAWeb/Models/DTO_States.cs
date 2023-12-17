@@ -29,7 +29,10 @@ namespace NBAWeb.Models
                 PageSize = pagesize,
                 HasPrevious = page > 1,
                  HasNext = page< totalP,
-                Records = states,
+                Records = states.OrderBy(a => a.Id)
+                        .Skip((page - 1) * pagesize)
+                        .Take(pagesize)
+                        .ToList(),
             };
         }
 

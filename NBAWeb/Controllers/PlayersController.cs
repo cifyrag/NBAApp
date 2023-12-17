@@ -27,6 +27,7 @@ namespace NBAWeb.Controllers
                 }
             }
             return View("GetPlayersPage", players);
+           
         }
 
         public IActionResult GetPlayer(int id)
@@ -62,6 +63,7 @@ namespace NBAWeb.Controllers
         {
             DTO_Players players = new DTO_Players();
             using (HttpResponseMessage response = _httpClient.GetAsync(baseAddress + $"/Players/Page?page={page}&pagesize={pagesize}").Result)
+            
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -70,6 +72,7 @@ namespace NBAWeb.Controllers
                 }
             }
             return View(players);
+            
         }
     }
 }

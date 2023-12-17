@@ -17,6 +17,7 @@ namespace NBAWeb.Controllers
         public IActionResult GetTeams()
         {
             DTO_Teams teams = new DTO_Teams();
+            List<DTO_TeamSummary> res = new List<DTO_TeamSummary>();
             using (HttpResponseMessage response = _httpClient.GetAsync(baseAddress + "/Teams").Result)
             {
                 if (response.IsSuccessStatusCode)
@@ -25,9 +26,39 @@ namespace NBAWeb.Controllers
                     teams = JsonConvert.DeserializeObject<DTO_Teams>(data);
                 }
             }
+           
             return View("GetTeamsPage", teams);
         }
 
+        public IActionResult GetTeamsbyConference()
+        {
+            DTO_Teams teams = new DTO_Teams();
+            List<DTO_TeamSummary> res = new List<DTO_TeamSummary>();
+            using (HttpResponseMessage response = _httpClient.GetAsync(baseAddress + "/Teams").Result)
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = response.Content.ReadAsStringAsync().Result;
+                    teams = JsonConvert.DeserializeObject<DTO_Teams>(data);
+                }
+            }
+            bool EasternCheck = Request.Form["EasternCheck"] == "on";
+            bool WesternCheck = Request.Form["WesternCheck"] == "on";
+
+            foreach (var el in teams.Records)
+            {
+                if (el.ConferenceId == "1" && EasternCheck)
+                {
+                    res.Add(el);
+                }
+                else
+                if (el.ConferenceId == "2" && WesternCheck)
+                {
+                    res.Add(el);
+                }
+            }
+            return View("GetTeamsPage", DTO_Teams.ToDTO_Teams(res, res.Count));
+        }
         public IActionResult GetTeam(int id)
         {
             DTO_TeamDetails teams = new DTO_TeamDetails();
@@ -59,15 +90,39 @@ namespace NBAWeb.Controllers
         public IActionResult GetTeamsPage(int page, int pagesize)
         {
             DTO_Teams teams = new DTO_Teams();
+            //List<DTO_TeamSummary> res = new List<DTO_TeamSummary>();
             using (HttpResponseMessage response = _httpClient.GetAsync(baseAddress + $"/Teams/Page?page={page}&pagesize={pagesize}").Result)
             {
                 if (response.IsSuccessStatusCode)
                 {
                     string data = response.Content.ReadAsStringAsync().Result;
                     teams = JsonConvert.DeserializeObject<DTO_Teams>(data);
+                    //bool EasternCheck = Request.Form["EasternCheck"] == "on";
+                    //bool WesternCheck = Request.Form["WesternCheck"] == "on";
+                   
+                    //foreach (var el in teams.Records)
+                    //{
+                    //    if (el.ConferenceId == "1" && EasternCheck)
+                    //    {
+                    //        res.Add(el);
+                    //    }
+                    //    else
+                    //    if (el.ConferenceId == "2" && WesternCheck)
+                    //    {
+                    //        res.Add(el);
+                    //    }
+                    //}
                 }
             }
+
+            //return View(DTO_Teams.ToDTO_Teams(res, res.Count));
             return View(teams);
+
+
+
+
         }
+
+
     }
 }

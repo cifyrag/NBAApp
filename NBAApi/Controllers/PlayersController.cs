@@ -46,7 +46,8 @@ namespace NBAApi.Controllers
                 return BadRequest(ModelState);
             }
             var res = players.Select(x => DTO_PlayerSummary.ToDTO_PlayerSummary(x)).ToList();
-            return Ok(DTO_Players.ToDTO_Players(res, res.Count));
+             return Ok(DTO_Players.ToDTO_Players(res, res.Count));
+          
 
         }
 
@@ -125,8 +126,9 @@ namespace NBAApi.Controllers
         [Route("Page")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(DTO_Players))]
-        public IActionResult GetPlayersPage([FromQuery] int page, [FromQuery] int pagesize)
+        public IActionResult GetPlayersPage([FromQuery] int page, [FromQuery] int pagesize=1)
         {
+            
             var players =
                     _context.Players
                         .OrderBy(a => a.Id)

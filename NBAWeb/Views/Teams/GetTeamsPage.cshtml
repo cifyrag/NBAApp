@@ -17,8 +17,8 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Search" name="q">
                     <button class="btn btn-info" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                            <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path>
+                        <svg  xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="white" d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path>
                         </svg>
                     </button>
                 </div>
@@ -26,17 +26,33 @@
         </td>
     </tr>
 </table>
+<form asp-action="GetTeamsByConference" asp-controller="Teams">
+     
+    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+        <input type="checkbox"  class="btn-check " name="EasternCheck" id="btncheck1" checked="" autocomplete="off">
+        <label class="btn btn-outline-success"  for="btncheck1">Eastern Conference</label>
+        <input type="checkbox" class="btn-check  btn-outline-info" name="WesternCheck" id="btncheck2" checked="" autocomplete="off">
+        <label class="btn btn-outline-success" for="btncheck2">Western Conference</label>
+       
+    </div>
+    <button class="btn btn-info" type="submit" >
+        Show
+    </button>
+</form>
+
 <table width="95%">
     <tr>
         <th width="15%">
             <button class="btn btn-info" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
-                    <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
+                    <path fill="white"d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
                 </svg>
             </button>
         </th>
-        <th class="text .text-dark">
-            Page @Model.CurrentPage of @Model.TotalPages <br />@(Model.TotalRecords > 0 ? ("Arenas " + (Model.CurrentPage - 1) * Model.PageSize + 1 + "-" + (Model.CurrentPage) * Model.PageSize) : "Arenas: " + 0)
+        <th>
+            Page @(Model.CurrentPage < 1 ? 1 : Model.CurrentPage) of @Model.TotalPages <br />
+            Records @(Model.TotalRecords > 0 ? Math.Round((float)(Model.CurrentPage - 1) * Model.PageSize + 1): 0 )-
+            @(Math.Round((float)(Model.CurrentPage) * Model.PageSize) <= Model.TotalRecords ? Math.Round((float)(Model.CurrentPage) * Model.PageSize) : Model.TotalRecords)
             of @Model.TotalRecords
         </th>
         <th align="right">
@@ -50,14 +66,14 @@
                     }
                     else
                     {
-                        <li class="page-item disabled">
-                            <a class="page-link "  asp-route-page="@(Model.CurrentPage - 1)">&laquo;</a>
+                        <li class="page-item ">
+                            <a class="page-link disabled "  asp-route-page="@(Model.CurrentPage - 1)">&laquo;</a>
                         </li>
                     }
 
 
-                    <li class="page-item active">
-                        <a class="page-link " asp-route-page="@(Model.CurrentPage)">@Model.CurrentPage</a>
+                    <li class="page-item ">
+                        <a class="page-link active " asp-route-page="@(Model.CurrentPage)">@Model.CurrentPage</a>
                     </li>
                     @if (Model.HasNext)
                     {
@@ -68,8 +84,8 @@
                     }
                     else
                     {
-                        <li class="page-item disabled">
-                            <a class="page-link " asp-route-page="@(Model.CurrentPage + 1)">&raquo;</a>
+                        <li class="page-item ">
+                            <a class="page-link disabled " asp-route-page="@(Model.CurrentPage + 1)">&raquo;</a>
                         </li>
                     }
 
@@ -122,6 +138,7 @@
         </tr>
         </a>
 }
+        <script src="~/js/conferenceCheckBox.js"></script>
     </tbody>
 </table>
 
